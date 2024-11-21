@@ -13,6 +13,31 @@ fun Application.configureRouting() {
         route("/blog") {
             val blogDb = Blog()
 
+            route("/likes") {
+                post("/plus") {
+                    try {
+                        val receiveJson = call.receive<String>()
+                        val id = Json.decodeFromString<Id>(receiveJson).id
+                        blogDb.plusLikes(id)
+                        call.respond("Likes incremented in ${id}")
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                    }
+                }
+                post("/minus") {
+                    try {
+                        val receiveJson = call.receive<String>()
+                        val id = Json.decodeFromString<Id>(receiveJson).id
+                        blogDb.minusLikes(id)
+                        call.respond("Likes decremented in ${id}")
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                    }
+
+
+                }
+            }
+
             get("/") {
                 val allPosts = blogDb.getAllPosts()
 
@@ -67,6 +92,29 @@ fun Application.configureRouting() {
                     call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
                 }
             }
+            delete("/deletepost") {
+                val receiveJson = call.receive<String>()
+                val id = Json.decodeFromString<Id>(receiveJson).id
+                val result = blogDb.deletePost(id)
+
+                if (result) {
+                    call.respond("Post deleteted")
+                } else call.respond("Error")
+            }
+            post("/addcomment") {
+                val receiveJson = call.receive<String>()
+                val id = Json.decodeFromString<Comment>(receiveJson).id
+                val comment = Json.decodeFromString<Comment>(receiveJson).comment
+
+                try {
+                    blogDb.addComment(id, comment)
+                    call.respond("Comment: ${comment} added to id: ${id}")
+                } catch (e: Exception) {
+                    call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                }
+
+            }
+
         }
         route("/bookstore") {
             get("/") {

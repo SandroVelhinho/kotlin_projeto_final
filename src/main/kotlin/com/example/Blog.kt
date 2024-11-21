@@ -22,6 +22,12 @@ data class Id(
     val id: String,
 )
 
+@Serializable
+data class Comment(
+    val id: String,
+    val comment: String
+)
+
 class Blog {
 
     private val client =
@@ -33,7 +39,7 @@ class Blog {
 
     fun getPostById(id: String): Post? {
         return try {
-            val objectId = id.let { org.bson.types.ObjectId(it) }
+            val objectId = converIdInObjectId(id)
             posts.findOneById(objectId)
         } catch (e: Exception) {
             null
@@ -43,14 +49,59 @@ class Blog {
     fun newPost(post: Post) = posts.insertOne(post)
 
     fun updatePost(id: String, post: Post): Boolean {
-        val resultado = posts.updateOneById(id, post)
+        val objectId = converIdInObjectId(id)
+        val resultado = posts.updateOneById(objectId, post)
         return resultado.matchedCount > 0
     }
 
     fun deletePost(id: String): Boolean {
-        val resultado = posts.deleteOneById(id)
+        val objectId = converIdInObjectId(id)
+        val resultado = posts.deleteOneById(objectId)
         return resultado.deletedCount > 0
+    }
+
+    fun plusLikes(id: String): Boolean {
+        val objectId = converIdInObjectId(id)
+
+
+        val result = posts.updateOneById(objectId, inc(Post::likes, 1))
+
+        return result.matchedCount > 0
+
+
+    }
+
+    fun minusLikes(id: String): Boolean {
+        val objectId = converIdInObjectId(id)
+
+
+        val result = posts.updateOneById(objectId, inc(Post::likes, -1))
+
+        return result.matchedCount > 0
+
+
+    }
+
+    fun addComment(id: String, comment: String): Boolean {
+
+        try {
+            val objectId = converIdInObjectId(id)
+            val result = posts.updateOneById(objectId, push(Post::comments, comment))
+            return true
+        } catch (e: Exception) {
+            return false
+        }
+
+
     }
 
 
 }
+
+fun converIdInObjectId(id: String): org.bson.types.ObjectId {
+    val objectId = id.let { org.bson.types.ObjectId(it) }
+
+    return objectId
+}
+
+
