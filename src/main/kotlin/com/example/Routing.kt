@@ -6,12 +6,14 @@ import io.ktor.server.request.receive
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
+import org.litote.kmongo.MongoOperator
 
 fun Application.configureRouting() {
     routing {
 
         route("/blog") {
             val blogDb = Blog()
+            val accountDb = Account()
 
             route("/likes") {
                 post("/plus") {
@@ -35,6 +37,52 @@ fun Application.configureRouting() {
                     }
 
 
+                }
+            }
+
+            route("/account") {
+                post("/create") {
+                    val receiveJson = call.receive<String>()
+                    val body = Json.decodeFromString<CredentialsVerify>(receiveJson)
+
+                    try {
+                        val returnString = accountDb.createAccount(body)
+
+                        call.respond(returnString)
+
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                    }
+
+
+                }
+                post("/login") {
+                    try {
+                        val receiveJson = call.receive<String>()
+                        val body = Json.decodeFromString<AccountInfo>(receiveJson)
+
+                        val returnString = accountDb.login(body)
+
+                        call.respond(returnString)
+
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                    }
+
+
+                }
+                post("/newpassword") {
+                    try {
+                        val receiveJson = call.receive<String>()
+                        val body = Json.decodeFromString<CredencialsResetPassword>(receiveJson)
+
+                        val returnString = accountDb.resetPassword(body)
+
+                        call.respond(returnString)
+
+                    } catch (e: Exception) {
+                        call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
+                    }
                 }
             }
 
