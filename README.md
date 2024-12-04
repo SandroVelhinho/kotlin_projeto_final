@@ -68,23 +68,76 @@ Necessario um Json com email password, newpass e confrimnewpass no body
     "confirmNewPassword" : "blabla" 
 }"
 
-# receber todo os Post na base
+# receber todos os Post na base
 GET "http://127.0.0.1:8080/blog"
 
 
 # Criar um Novo Post
 POST "http://127.0.0.1:8080/blog/new"
 
-Necessario um Json com email password, newpass e confrimnewpass no body
+Necessario um Json com id, title, descripion, likes, comments no body
 >body exemple
 
 "{
+    "id": ""(o id tem de ter uma string,de preferencia vazia, o UUID trata de criar um id para este post)
     "title": "title blabla",
     "description": "blablalbal",
     "likes" : 2,
-    "confirmNewPassword" : "blabla" 
+    "comments" : [""] (obrigatorio ser uma array de Strings) 
 }"  
 
+# Editar um Post existente
+POST "http://127.0.0.1:8080/blog/updatepost"
+
+Necessario um Json com id, title, descripion, likes, comments no body
+
+
+>body exemple
+
+"{
+    "id": "1b23b553b65rg",(necessario ser um id de um post existente )
+    "title": "title blabla",
+    "description": "blablalbal",
+    "likes" : 2,
+    "comments" : [""] (obrigatorio ser uma array de Strings) 
+}"  
+
+# Ler um Post
+GET "http://127.0.0.1:8080/blog/getapost"
+
+Necessario um Json com id
+
+
+>body exemple
+
+"{
+    "id": "1b23b553b65rg"(necessario ser um id de um post existente ) 
+}"  
+
+# Apagar um Post
+GET "http://127.0.0.1:8080/blog/deletepost"
+
+Necessario um Json com id
+
+
+>body exemple
+
+"{
+    "id": "1b23b553b65rg"(necessario ser um id de um post existente ) 
+}"  
+
+# Adicionar um Comentario a um Post existente
+GET "http://127.0.0.1:8080/blog/addcomment"
+
+Necessario um Json com id e uma String de um comentario
+
+
+>body exemple
+
+"{
+    "id": "1b23b553b65rg",(necessario ser um id de um post existente ) 
+    "comment": "novo comentario"
+}"  
 
 
 
