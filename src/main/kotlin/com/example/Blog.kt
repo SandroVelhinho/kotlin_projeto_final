@@ -7,6 +7,7 @@ import jdk.jfr.Description
 import kotlinx.serialization.Serializable
 import org.bson.codecs.pojo.annotations.BsonId
 import org.litote.kmongo.*
+import org.litote.kmongo.insertOne
 
 @Serializable
 data class Post(
@@ -39,32 +40,36 @@ class Blog {
 
     fun getPostById(id: String): Post? {
         return try {
-            val objectId = converIdInObjectId(id)
-            posts.findOneById(objectId)
+            // val objectId = converIdInObjectId(id)
+            posts.findOneById(id)
         } catch (e: Exception) {
             null
         }
     }
 
-    fun newPost(post: Post) = posts.insertOne(post)
+    fun newPost(post: Post): String {
+        val response = posts.insertOne(post)
+        return response.toString()
+    }
 
     fun updatePost(id: String, post: Post): Boolean {
-        val objectId = converIdInObjectId(id)
-        val resultado = posts.updateOneById(objectId, post)
+
+        // val objectId = converIdInObjectId(id)
+        val resultado = posts.updateOneById(id, post)
         return resultado.matchedCount > 0
     }
 
     fun deletePost(id: String): Boolean {
-        val objectId = converIdInObjectId(id)
-        val resultado = posts.deleteOneById(objectId)
+        //  val objectId = converIdInObjectId(id)
+        val resultado = posts.deleteOneById(id)
         return resultado.deletedCount > 0
     }
 
     fun plusLikes(id: String): Boolean {
-        val objectId = converIdInObjectId(id)
+        //val objectId = converIdInObjectId(id)
 
 
-        val result = posts.updateOneById(objectId, inc(Post::likes, 1))
+        val result = posts.updateOneById(id, inc(Post::likes, 1))
 
         return result.matchedCount > 0
 
@@ -72,10 +77,10 @@ class Blog {
     }
 
     fun minusLikes(id: String): Boolean {
-        val objectId = converIdInObjectId(id)
+        //  val objectId = converIdInObjectId(id)
 
 
-        val result = posts.updateOneById(objectId, inc(Post::likes, -1))
+        val result = posts.updateOneById(id, inc(Post::likes, -1))
 
         return result.matchedCount > 0
 
@@ -85,8 +90,8 @@ class Blog {
     fun addComment(id: String, comment: String): Boolean {
 
         try {
-            val objectId = converIdInObjectId(id)
-            val result = posts.updateOneById(objectId, push(Post::comments, comment))
+            //  val objectId = converIdInObjectId(id)
+            val result = posts.updateOneById(id, push(Post::comments, comment))
             return true
         } catch (e: Exception) {
             return false

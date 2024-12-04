@@ -7,6 +7,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import kotlinx.serialization.json.Json
 import org.litote.kmongo.MongoOperator
+import java.util.UUID
+import kotlin.uuid.Uuid
 
 fun Application.configureRouting() {
     routing {
@@ -94,8 +96,9 @@ fun Application.configureRouting() {
             post("/new") {
                 try {
                     val receiveJson = call.receive<String>()
+                    val receivedPost = Json.decodeFromString<Post>(receiveJson)
 
-                    val newPost = Json.decodeFromString<Post>(receiveJson)
+                    val newPost = receivedPost.copy(id = UUID.randomUUID().toString()) //utilizei UUID por não estar a conseguir funcionar a 100% com o ObjectId do mongoDB
 
                     blogDb.newPost(newPost)
                     call.respond("Post added! ${newPost}")
