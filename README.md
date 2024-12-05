@@ -3,11 +3,15 @@ ______________________________
 # tecnologias
 
 > MongoDb (database connection)
+
 > Ktor (kotlin framework)
+
 > Kmongo (Lib de integração MongoDb para kotlin)
 
+> UUID (Criador de Id unica)
 
 
+Ps: em caso de erro na conecção com a DataBase envie mail para mim "sfgvelhinho@gmail.com" a dizer para libertar a database para todos os ip's.
 ______________________________
 # PATHS
 
@@ -68,7 +72,7 @@ Necessario um Json com email password, newpass e confrimnewpass no body
     "confirmNewPassword" : "blabla" 
 }"
 
-# receber todos os Post na base
+# Receber todos os Post na base
 GET "http://127.0.0.1:8080/blog"
 
 
