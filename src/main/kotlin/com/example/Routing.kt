@@ -88,7 +88,7 @@ fun Application.configureRouting() {
                 }
             }
 
-            get("/") {
+            get("") {
                 val allPosts = blogDb.getAllPosts()
 
                 call.respond(allPosts.toString())
@@ -98,7 +98,9 @@ fun Application.configureRouting() {
                     val receiveJson = call.receive<String>()
                     val receivedPost = Json.decodeFromString<Post>(receiveJson)
 
-                    val newPost = receivedPost.copy(id = UUID.randomUUID().toString()) //utilizei UUID por não estar a conseguir funcionar a 100% com o ObjectId do mongoDB
+                    val newPost = receivedPost.copy(
+                        id = UUID.randomUUID().toString()
+                    ) //utilizei UUID por não estar a conseguir funcionar a 100% com o ObjectId do mongoDB
 
                     blogDb.newPost(newPost)
                     call.respond("Post added! ${newPost}")
@@ -158,8 +160,12 @@ fun Application.configureRouting() {
                 val comment = Json.decodeFromString<Comment>(receiveJson).comment
 
                 try {
-                    blogDb.addComment(id, comment)
-                    call.respond("Comment: ${comment} added to id: ${id}")
+                    val result = blogDb.addComment(id, comment)
+
+                    if (result) {
+
+                        call.respond("Comment: ${comment} added to id: ${id}")
+                    } else call.respond("Id not found")
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.BadRequest, "Error: ${e.localizedMessage}")
                 }

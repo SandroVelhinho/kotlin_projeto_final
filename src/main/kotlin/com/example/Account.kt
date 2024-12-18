@@ -39,7 +39,8 @@ class Account {
         if (credentials.email.isNullOrBlank()) return "Email required"
         if (credentials.password.isNullOrBlank() || credentials.confirmPassword.isNullOrBlank()) return "Password required"
         if (credentials.password != credentials.confirmPassword) return "Passwords doesnt match"
-        val emailExistence = accountsCollection.find(AccountInfo::email eq credentials.email)
+        val emailExistence = accountsCollection.findOne(AccountInfo::email eq credentials.email)
+
         if (emailExistence != null) return "Email already exists"
 
         val personAccount = AccountInfo(email = credentials.email, password = credentials.password)

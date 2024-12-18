@@ -36,7 +36,13 @@ class Blog {
     private val database = client.getDatabase("Blog")
     private val posts = database.getCollection<Post>("Post")
 
-    fun getAllPosts(): List<Post> = posts.find().toList()
+    fun getAllPosts(): List<Post> {
+
+        val response = posts.find().toList()
+
+
+        return response
+    }
 
     fun getPostById(id: String): Post? {
         return try {
@@ -92,6 +98,7 @@ class Blog {
         try {
             //  val objectId = converIdInObjectId(id)
             val result = posts.updateOneById(id, push(Post::comments, comment))
+            if (result.matchedCount.toInt() == 0) return false
             return true
         } catch (e: Exception) {
             return false
