@@ -25,6 +25,7 @@ Necessario um id de um document da collention Post
 "{
     "id": "673e8019899f964900b4f3ef"
 }"
+______________________________
 
 # retirar 1 like post
 POST "http://127.0.0.1:8080/blog/likes/plus"
@@ -35,6 +36,7 @@ Necessario um id de um document da collention Post
 "{
     "id": "673e8019899f964900b4f3ef"
 }"
+______________________________
 
 # criar uma conta nova
 POST "http://127.0.0.1:8080/blog/account/create"
@@ -47,6 +49,7 @@ Necessario um Json com email, password e confirmpassword no body
     "password": "1234324",
     "confirmPassword" : "blabla", 
 }"
+______________________________
 
 # Login numa conta existente
 POST "http://127.0.0.1:8080/blog/account/login"
@@ -58,6 +61,7 @@ Necessario um Json com email password no body
     "email": "mail@testsuper.com",
     "password": "1234324",
 }"
+______________________________
 
 # Atualizar password de uma conta existente
 POST "http://127.0.0.1:8080/blog/account/newpassword"
@@ -71,11 +75,12 @@ Necessario um Json com email password, newpass e confrimnewpass no body
     "newPassword" : "blabla",
     "confirmNewPassword" : "blabla" 
 }"
+______________________________
 
 # Receber todos os Post na base
 GET "http://127.0.0.1:8080/blog"
 
-
+______________________________
 # Criar um Novo Post
 POST "http://127.0.0.1:8080/blog/new"
 
@@ -89,6 +94,7 @@ Necessario um Json com id, title, descripion, likes, comments no body
     "likes" : 2,
     "comments" : [""] (obrigatorio ser uma array de Strings) 
 }"  
+______________________________
 
 # Editar um Post existente
 POST "http://127.0.0.1:8080/blog/updatepost"
@@ -106,6 +112,7 @@ Necessario um Json com id, title, descripion, likes, comments no body
     "comments" : [""] (obrigatorio ser uma array de Strings) 
 }"  
 
+______________________________
 # Ler um Post
 GET "http://127.0.0.1:8080/blog/getapost"
 
@@ -118,6 +125,7 @@ Necessario um Json com id
     "id": "1b23b553b65rg"(necessario ser um id de um post existente ) 
 }"  
 
+______________________________
 # Apagar um Post
 GET "http://127.0.0.1:8080/blog/deletepost"
 
@@ -129,6 +137,7 @@ Necessario um Json com id
 "{
     "id": "1b23b553b65rg"(necessario ser um id de um post existente ) 
 }"  
+______________________________
 
 # Adicionar um Comentario a um Post existente
 GET "http://127.0.0.1:8080/blog/addcomment"
