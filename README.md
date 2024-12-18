@@ -47,7 +47,7 @@ Necessario um Json com email, password e confirmpassword no body
 "{
     "email": "mail@testsuper.com",
     "password": "1234324",
-    "confirmPassword" : "blabla", 
+    "confirmPassword" : "blabla"
 }"
 ______________________________
 
@@ -59,7 +59,7 @@ Necessario um Json com email password no body
 
 "{
     "email": "mail@testsuper.com",
-    "password": "1234324",
+    "password": "1234324"
 }"
 ______________________________
 
