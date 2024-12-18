@@ -140,7 +140,7 @@ Necessario um Json com id
 ______________________________
 
 # Adicionar um Comentario a um Post existente
-GET "http://127.0.0.1:8080/blog/addcomment"
+POST "http://127.0.0.1:8080/blog/addcomment"
 
 Necessario um Json com id e uma String de um comentario
 
