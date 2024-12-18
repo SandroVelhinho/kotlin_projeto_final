@@ -28,7 +28,7 @@ Necessario um id de um document da collention Post
 ______________________________
 
 # retirar 1 like post
-POST "http://127.0.0.1:8080/blog/likes/plus"
+POST "http://127.0.0.1:8080/blog/likes/minus"
 
 Necessario um id de um document da collention Post
 >body exemple
