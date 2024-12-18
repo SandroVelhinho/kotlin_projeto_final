@@ -173,11 +173,6 @@ fun Application.configureRouting() {
             }
 
         }
-        route("/bookstore") {
-            get("/") {
 
-
-            }
-        }
     }
 }

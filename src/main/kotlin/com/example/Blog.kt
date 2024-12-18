@@ -110,6 +110,8 @@ class Blog {
 
 }
 
+
+// função que foi abandonada devido a problemas com a conversão de ObjectId para kotlin data
 fun converIdInObjectId(id: String): org.bson.types.ObjectId {
     val objectId = id.let { org.bson.types.ObjectId(it) }
 
