@@ -127,7 +127,7 @@ Necessario um Json com id
 
 ______________________________
 # Apagar um Post
-GET "http://127.0.0.1:8080/blog/deletepost"
+Delete "http://127.0.0.1:8080/blog/deletepost"
 
 Necessario um Json com id
 
